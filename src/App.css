@@ -1,0 +1,94 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+#main{
+  border: 2px double rgb(233, 237, 8);
+  height: 200px;
+}
+#prop{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  color: red;
+  margin-top: 20px;
+}
+#btn{
+  color:black;
+  background-color: rgb(47, 169, 169);
+}
+#btn:hover{  
+  background-color: rgb(34, 214, 214);
+}
+.label{
+  color:brown
+}
+.input{
+    border: 2px double rgb(228, 88, 112);
+}
+.sp{
+  display: flex;
+  justify-content: center;
+  column-gap: 15px;
+  
+}
+body{
+  background-color: black;
+  width: 50%;
+  border-radius:25px;
+}
+#h1{
+  color: rgb(228, 19, 19);
+  font-style: italic;
+}
+#chil{
+  margin-top: 15px;
+}
+.expense-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; 
+  column-gap: 50px;
+}
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.expense-label {
+  color: red; 
+}
+.expense-value {
+  color: white; 
+}
+.amount-label {
+  margin-left: 20px;   
+}
+.amount-value{
+  color: white;
+}
+.remove-button {
+  margin-left: 20px; 
+}
+.remove-button button {
+  background-color: #dc3545; 
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.remove-button button:hover {
+  background-color: #bd2130;
+}
+#total{
+  font-size: 25px;
+  color: rgb(218, 218, 39);
+
+}
+
+
