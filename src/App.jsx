@@ -1,46 +1,69 @@
-import { useState } from 'react'
-import './App.css'
-import ExpenseItem from './ExpenseItem'
-import ExpenseForm from './ExpenseForm';
 
-function App() {   
-    
-    const [transactions, setTransactions] = useState([
-        { id: 1, expense: "Food", amount: 1000 },
-        { id: 2, expense: "Travel", amount: 1500 },
-        { id: 3, expense: "SemFee", amount: 3000 }
-    ]);
+import React, { useState, useEffect } from "react";
+import ExpenseItem from "./ExpenseItem";
+import ExpenseForm from "./ExpenseForm";
 
-    function addForm(expense,amount){
-        console.log(expense,amount);
-        const data={id:transactions.length+1 ,expense:expense,amount:amount}
-        setTransactions([...transactions,data])
-        console.log([...transactions,data])
-    }
-    function handleRemove(index){
-        const arr = [...transactions];
-        arr.splice(index, 1);
-        setTransactions(arr);
-    }
+function App() {
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        fetchExpenses();
+    }, []);
+
+    const fetchExpenses = async () => {
+        try {
+            const response = await fetch("/getexpenses");
+            if (response.ok) {
+                const data = await response.json();
+                setTransactions(data);
+            } else {
+                console.log("Error fetching expenses:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error fetching expenses:", error);
+        }
+    };
+
+    const addForm = (expense, amount) => {
+        setTransactions([...transactions, { title: expense, amount: amount }]);
+    };
+
+    const handleRemove = async (index) => {
+        const id = transactions[index]._id;
+        try {
+            const response = await fetch(`/deleteexpense/${id}`, {
+                method: "DELETE",
+            });
+            if (response.ok) {
+                const updatedTransactions = [...transactions];
+                updatedTransactions.splice(index, 1);
+                setTransactions(updatedTransactions);
+            } else {
+                console.log("Error deleting expense:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error deleting expense:", error);
+        }
+    };
 
     return (
         <div>
-             <ExpenseForm addForm={addForm}/>
-            {transactions.map((value,index)=>(
-               <ExpenseItem  id={value.id} 
-               expense={value.expense} 
-               amount={value.amount}
-               key={value.id}
-               handleRemove={() => handleRemove(index)} />
-            ))} <br />
+            <ExpenseForm addForm={addForm} />
+            {transactions.map((transaction, index) => (
+                <ExpenseItem
+                    key={transaction._id}
+                    id={transaction._id}
+                    expense={transaction.title}
+                    amount={transaction.amount}
+                    handleRemove={() => handleRemove(index)}
+                />
+            ))}
             <div id="total">
-                Total Expense: ${transactions.reduce((total, transaction) =>
-                total + parseFloat(transaction.amount), 0)}
-             </div>
-          
+                Total Expense: $
+                {transactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0)}
+            </div>
         </div>
-        
-    )
+    );
 }
 
-export default App
+export default App;
